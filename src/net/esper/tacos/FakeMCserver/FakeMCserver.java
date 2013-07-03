@@ -7,10 +7,13 @@ import org.jboss.netty.channel.ChannelPipelineFactory;
 import org.jboss.netty.channel.Channels;
 import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
 
+import java.math.BigInteger;
 import java.net.InetSocketAddress;
+import java.nio.charset.Charset;
 import java.util.concurrent.Executors;
 
 public class FakeMCserver {
+
 
     public static void main(String[] args) throws Exception {
         ChannelFactory factory =
