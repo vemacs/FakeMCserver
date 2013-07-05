@@ -21,15 +21,29 @@ public class FakeMCserverHandler extends SimpleChannelHandler {
     private static String header = "00 a700 3100 0000";
     private static String sep = "00 00 00";
 
+    private int prot;
+    private String ver;
+    private String motd;
+    private int cur;
+    private int max;
+
+    public FakeMCserverHandler(int prot, String ver, String motd, int cur, int max) {
+        this.prot = prot;
+        this.ver = ver;
+        this.motd = motd;
+        this.cur = cur;
+        this.max = max;
+    }
+
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) {
         Channel ch = e.getChannel();
         ChannelBuffer buf = (ChannelBuffer) e.getMessage();
-        String response = generate(73, "1.6.1", "HAPPY MURICA DAY", 420, 1337);
+        String response = generate();
         ChannelBuffer res = copiedBuffer(parseHexBinary(response));
         ch.write(res);
         String temp = "";
-        while(buf.readable()) {
+        while (buf.readable()) {
             byte[] tmp = new byte[1];
             tmp[0] = buf.readByte();
             temp = temp + printHexBinary(tmp);
@@ -48,10 +62,10 @@ public class FakeMCserverHandler extends SimpleChannelHandler {
         ch.close();
     }
 
-    public static String generate(int prot, String ver, String motd, int cur, int max) {
+    private String generate() {
         String buf = header + toHex(Integer.toString(prot)) + sep + toHex(ver) + sep + toHex(motd) + sep +
                 toHex(Integer.toString(cur)) + sep + toHex(Integer.toString(max));
-        int stringLength =  Integer.toString(prot).length() + 1 + ver.length() + 1 + motd.length() +
+        int stringLength = Integer.toString(prot).length() + 1 + ver.length() + 1 + motd.length() +
                 1 + Integer.toString(cur).length() + 1 + Integer.toString(max).length() + 3;
         buf = start + Integer.toHexString(stringLength) + buf;
         buf = buf.replace(" ", "").toUpperCase();

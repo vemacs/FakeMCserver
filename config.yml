@@ -1,0 +1,6 @@
+port: 25565
+prot: 73
+ver: 4.2.0
+motd: '&6[le]terally hit[le]r'
+cur: 1337
+max: 90210
