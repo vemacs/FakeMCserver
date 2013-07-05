@@ -37,6 +37,7 @@ public class FakeMCserverHandler extends SimpleChannelHandler {
         temp = temp.replace("\n", "");
         System.out.println("Received packet: " + temp.trim());
         System.out.println("Sent packet: " + response);
+        ch.close();
     }
 
     @Override
