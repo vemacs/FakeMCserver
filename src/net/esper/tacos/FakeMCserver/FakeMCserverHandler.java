@@ -87,7 +87,6 @@ public class FakeMCserverHandler extends SimpleChannelHandler {
     }
 
     public static String toHex(String arg) {
-        arg = arg.toUpperCase();
         return String.format("%x", new BigInteger(1, arg.getBytes(Charset.forName("UTF-16BE"))));
     }
 
