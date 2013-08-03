@@ -10,7 +10,7 @@ public class Packet {
     }
 
     public static PacketType getPacketType(String header) {
-        if (header.replace(" ", "").toUpperCase().startsWith("FE")) {
+        if (header.replace(" ", "").toUpperCase().equals("FE") || header.replace(" ", "").toUpperCase().startsWith("FE01")) {
             return PacketType.PING;
         }
         if (header.replace(" ", "").toUpperCase().startsWith("FEFD")) {
