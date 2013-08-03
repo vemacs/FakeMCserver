@@ -30,6 +30,7 @@ public class FakeMCserver {
         final String motd = replaceColors((String) config.get("motd"));
         final int cur = Integer.parseInt(((Integer) config.get("cur")).toString());
         final int max = Integer.parseInt(((Integer) config.get("max")).toString());
+        final String kick = replaceColors((String) config.get("kick"));
         ChannelFactory factory =
                 new NioServerSocketChannelFactory(
                         Executors.newCachedThreadPool(),
@@ -37,7 +38,7 @@ public class FakeMCserver {
         ServerBootstrap bootstrap = new ServerBootstrap(factory);
         bootstrap.setPipelineFactory(new ChannelPipelineFactory() {
             public ChannelPipeline getPipeline() {
-                return Channels.pipeline(new FakeMCserverHandler(prot, ver, motd, cur, max));
+                return Channels.pipeline(new FakeMCserverHandler(prot, ver, motd, cur, max, kick));
             }
         });
         bootstrap.setOption("child.tcpNoDelay", true);

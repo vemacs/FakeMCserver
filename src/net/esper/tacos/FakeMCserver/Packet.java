@@ -10,13 +10,13 @@ public class Packet {
     }
 
     public static PacketType getPacketType(String header) {
-        if (header.replace(" ", "").toUpperCase().equals("FE01")) {
+        if (header.replace(" ", "").toUpperCase().startsWith("FE")) {
             return PacketType.PING;
         }
-        if (header.replace(" ", "").toUpperCase().equals("FEFD")) {
+        if (header.replace(" ", "").toUpperCase().startsWith("FEFD")) {
             return PacketType.QUERY;
         }
-        if (header.replace(" ", "").toUpperCase().startsWith("02")) {
+        if (header.replace(" ", "").toUpperCase().startsWith("024A")) {
             return PacketType.JOIN;
         }
         return PacketType.NOIDEA;

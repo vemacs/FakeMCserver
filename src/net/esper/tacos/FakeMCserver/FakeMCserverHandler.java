@@ -26,30 +26,39 @@ public class FakeMCserverHandler extends SimpleChannelHandler {
     private String motd;
     private int cur;
     private int max;
+    private String kick;
 
-    public FakeMCserverHandler(int prot, String ver, String motd, int cur, int max) {
+    public FakeMCserverHandler(int prot, String ver, String motd, int cur, int max, String kick) {
         this.prot = prot;
         this.ver = ver;
         this.motd = motd;
         this.cur = cur;
         this.max = max;
+        this.kick = kick;
     }
 
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) {
         Channel ch = e.getChannel();
         ChannelBuffer buf = (ChannelBuffer) e.getMessage();
-        String response = generate();
+        byte[] tmp = buf.array();
+        String temp = printHexBinary(tmp);
+        System.out.println("Received packet: " + temp.trim());
+        String response = "";
+        switch (Packet.getPacketType(temp)) {
+            case PING:
+                response = generate();
+                break;
+            case JOIN:
+                response = kick();
+                break;
+            case QUERY:
+                break;
+            case NOIDEA:
+                break;
+        }
         ChannelBuffer res = copiedBuffer(parseHexBinary(response));
         ch.write(res);
-        String temp = "";
-        while (buf.readable()) {
-            byte[] tmp = new byte[1];
-            tmp[0] = buf.readByte();
-            temp = temp + printHexBinary(tmp);
-        }
-        temp = temp.replace("\n", "");
-        System.out.println("Received packet: " + temp.trim());
         System.out.println("Sent packet: " + response);
         ch.close();
     }
@@ -60,6 +69,11 @@ public class FakeMCserverHandler extends SimpleChannelHandler {
         System.out.println(e.getChannel().getRemoteAddress().toString() + " disconnected");
         Channel ch = e.getChannel();
         ch.close();
+    }
+
+    private String kick() {
+        System.out.println("Length: " + kick.length());
+        return (start + Integer.toHexString(kick.length()) + "00" + toHex(kick)).toUpperCase();
     }
 
     private String generate() {
@@ -73,6 +87,7 @@ public class FakeMCserverHandler extends SimpleChannelHandler {
     }
 
     public static String toHex(String arg) {
+        arg = arg.toUpperCase();
         return String.format("%x", new BigInteger(1, arg.getBytes(Charset.forName("UTF-16BE"))));
     }
 
