@@ -24,9 +24,10 @@ public class FakeMCserver {
         InputStream input = new FileInputStream(new File("config.yml"));
         Yaml yaml = new Yaml();
         Map config = (Map) yaml.load(input);
+        String ip = (String) config.get("ip");
         int port = Integer.parseInt(((Integer) config.get("port")).toString());
         final int prot = Integer.parseInt(((Integer) config.get("prot")).toString());
-        final String ver = (String) config.get("ver");
+        final String ver = replaceColors((String) config.get("ver"));
         final String motd = replaceColors((String) config.get("motd"));
         final int cur = Integer.parseInt(((Integer) config.get("cur")).toString());
         final int max = Integer.parseInt(((Integer) config.get("max")).toString());
@@ -43,7 +44,7 @@ public class FakeMCserver {
         });
         bootstrap.setOption("child.tcpNoDelay", true);
         bootstrap.setOption("child.keepAlive", true);
-        bootstrap.bind(new InetSocketAddress(port));
+        bootstrap.bind(new InetSocketAddress(ip, port));
     }
 
     public static String replaceColors(String text) {
