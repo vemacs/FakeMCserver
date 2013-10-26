@@ -18,8 +18,6 @@ import static org.jboss.netty.buffer.ChannelBuffers.copiedBuffer;
 public class FakeMCserverHandler extends SimpleChannelHandler {
 
     private static String start = "ff00";
-    private static String header = "00 a700 3100 0000";
-    private static String sep = "00 00 00";
 
     private int prot;
     private String ver;
@@ -77,6 +75,8 @@ public class FakeMCserverHandler extends SimpleChannelHandler {
     }
 
     private String generate() {
+        String header = "00 a700 3100 0000";
+        String sep = "00 00 00";
         String buf = header + toHex(Integer.toString(prot)) + sep + toHex(ver) + sep + toHex(motd) + sep +
                 toHex(Integer.toString(cur)) + sep + toHex(Integer.toString(max));
         int stringLength = Integer.toString(prot).length() + 1 + ver.length() + 1 + motd.length() +

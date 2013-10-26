@@ -25,12 +25,12 @@ public class FakeMCserver {
         Yaml yaml = new Yaml();
         Map config = (Map) yaml.load(input);
         String ip = (String) config.get("ip");
-        int port = Integer.parseInt(((Integer) config.get("port")).toString());
-        final int prot = Integer.parseInt(((Integer) config.get("prot")).toString());
+        int port = Integer.parseInt(config.get("port").toString());
+        final int prot = Integer.parseInt(config.get("prot").toString());
         final String ver = replaceColors((String) config.get("ver"));
         final String motd = replaceColors((String) config.get("motd"));
-        final int cur = Integer.parseInt(((Integer) config.get("cur")).toString());
-        final int max = Integer.parseInt(((Integer) config.get("max")).toString());
+        final int cur = Integer.parseInt(config.get("cur").toString());
+        final int max = Integer.parseInt(config.get("max").toString());
         final String kick = replaceColors((String) config.get("kick"));
         ChannelFactory factory =
                 new NioServerSocketChannelFactory(
