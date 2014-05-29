@@ -5,12 +5,8 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import me.vemacs.fakemcserver.data.StatusResponse;
 import me.vemacs.fakemcserver.streams.MojewInputStream;
 import me.vemacs.fakemcserver.streams.MojewOutputStream;
-
-import javax.xml.bind.DatatypeConverter;
-import java.util.Arrays;
 
 public class BasePacketHandler extends ChannelInboundHandlerAdapter {
     private final Gson gson = new Gson();
@@ -28,16 +24,17 @@ public class BasePacketHandler extends ChannelInboundHandlerAdapter {
                 String address = in.readUTF();
                 int port = in.readUnsignedShort();
                 int state = in.readInt();
-                System.out.println(length + ", " + id + ", " + version + ", " + address + ", " + port + ", " + state);
-                length = in.readInt();
-                id = in.readInt();
+                System.out.println("Received request: " +
+                        length + ", " + id + ", " + version +
+                        ", " + address + ", " + port + ", " + state);
             } catch (Exception ignored) {
+                // status request packet is sent inconsistently, so we ignore it
             }
             in.close();
-            System.out.println(length + ", " + id);
             // status response
-            String response = gson.toJson(Main.response).replace(ChatConverter.ESCAPE + "", "\\u00A7");
-            System.out.println(response);
+            String response = gson.toJson(Main.response).replace(
+                    ChatConverter.ESCAPE + "", "\\u00A7"); // Mojew's parser needs this escaped (classic)
+            System.out.println("Sending response with JSON: " + response);
             MojewOutputStream out = new MojewOutputStream(Unpooled.buffer());
             MojewOutputStream data = new MojewOutputStream(Unpooled.buffer());
             data.writeInt(0);
@@ -46,12 +43,11 @@ public class BasePacketHandler extends ChannelInboundHandlerAdapter {
             out.writeInt(data.writtenBytes());
             out.write(data.getData());
             out.close();
-            // System.out.println(DatatypeConverter.printHexBinary(out.getData()));
             ctx.writeAndFlush(out.buffer());
         } else if (id == 1) {
             // ping request
             long time = in.readLong();
-            System.out.println(length + ", " + id + ", " + time);
+            System.out.println("Received ping packet: " + length + ", " + id + ", " + time);
             // ping response
             MojewOutputStream out = new MojewOutputStream(Unpooled.buffer());
             MojewOutputStream data = new MojewOutputStream(Unpooled.buffer());
@@ -61,7 +57,6 @@ public class BasePacketHandler extends ChannelInboundHandlerAdapter {
             out.writeInt(data.writtenBytes());
             out.write(data.getData());
             out.close();
-            // System.out.println(DatatypeConverter.printHexBinary(out.getData()));
             ctx.writeAndFlush(out.buffer());
         }
     }

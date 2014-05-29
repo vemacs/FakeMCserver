@@ -3,7 +3,6 @@ package me.vemacs.fakemcserver;
 import me.vemacs.fakemcserver.data.StatusResponse;
 
 import java.io.*;
-import java.util.List;
 import java.util.Properties;
 
 public class Main {
@@ -39,7 +38,7 @@ public class Main {
                     Message classicMsg = new Message();
                     classicMsg.text = ChatConverter.replaceColors(
                             prop.getProperty("description")).replace("\\n", "\n");
-                    description =classicMsg;
+                    description = classicMsg;
             }
 
             response = new StatusResponse(

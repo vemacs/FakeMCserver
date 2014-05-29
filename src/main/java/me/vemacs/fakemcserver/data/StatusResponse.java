@@ -1,9 +1,6 @@
 package me.vemacs.fakemcserver.data;
 
-import me.vemacs.fakemcserver.ChatConverter;
 import me.vemacs.fakemcserver.Message;
-
-import java.util.List;
 
 public class StatusResponse {
     Version version;
