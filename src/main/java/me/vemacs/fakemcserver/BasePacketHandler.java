@@ -38,18 +38,16 @@ public class BasePacketHandler extends ChannelInboundHandlerAdapter {
         System.out.println("Proper length: " + data.writtenBytes() + ", " + length);
         // status response
         String response = "{\"version\":{\"name\":\"1.7.2\",\"protocol\":4},\"players\":{\"max\":100,\"online\":5,\"sample\":[{\"name\":\"Thinkofdeath\",\"id\":\"4566e69fc90748ee8d71d7ba5aa00d20\"}]},\"description\":{\"text\":\"Hello world\"}}";
-        MojewOutputStream out = new MojewOutputStream((ByteBuf) msg);
+        MojewOutputStream out = new MojewOutputStream(Unpooled.buffer());
         data = new MojewOutputStream(Unpooled.buffer());
         data.writeInt(0);
         data.writeUTF(response);
         data.close();
         out.writeInt(data.writtenBytes());
-        System.out.println(data.writtenBytes());
-        byte[] bytes = Arrays.copyOfRange(data.buffer().array(), 0, data.writtenBytes());
-        out.write(bytes);
-        System.out.println(DatatypeConverter.printHexBinary(bytes));
+        out.write(data.getData());
         out.close();
-        ctx.writeAndFlush(msg);
+        System.out.println(DatatypeConverter.printHexBinary(out.getData()));
+        ctx.writeAndFlush(out);
     }
 
     @Override

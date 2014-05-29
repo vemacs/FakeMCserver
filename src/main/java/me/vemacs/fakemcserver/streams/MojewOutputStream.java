@@ -5,6 +5,7 @@ import io.netty.buffer.ByteBufOutputStream;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 public class MojewOutputStream extends ByteBufOutputStream {
     public MojewOutputStream(ByteBuf buffer) {
@@ -28,5 +29,9 @@ public class MojewOutputStream extends ByteBufOutputStream {
             writeByte(paramInt & 0x7F | 0x80);
             paramInt >>>= 7;
         }
+    }
+
+    public byte[] getData() {
+        return Arrays.copyOfRange(buffer().array(), 0, writtenBytes());
     }
 }
