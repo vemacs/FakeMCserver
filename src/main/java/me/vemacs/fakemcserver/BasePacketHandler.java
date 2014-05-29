@@ -36,7 +36,7 @@ public class BasePacketHandler extends ChannelInboundHandlerAdapter {
             in.close();
             System.out.println(length + ", " + id);
             // status response
-            String response = gson.toJson(Main.response);
+            String response = gson.toJson(Main.response).replace(ChatConverter.ESCAPE + "", "\\u00A7");
             System.out.println(response);
             MojewOutputStream out = new MojewOutputStream(Unpooled.buffer());
             MojewOutputStream data = new MojewOutputStream(Unpooled.buffer());

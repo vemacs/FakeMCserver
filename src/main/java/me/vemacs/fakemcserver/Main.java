@@ -20,21 +20,34 @@ public class Main {
                 prop.setProperty("max", Integer.toString(42069));
                 prop.setProperty("online", Integer.toString(9001));
                 prop.setProperty("description", "Blaze it");
+                prop.setProperty("engine", "json");
                 prop.store(output, null);
             }
         }
 
         try (InputStream input = new FileInputStream(config)) {
             prop.load(input);
-            List<Message> description = ChatConverter.toJSONChat(
-                    ChatConverter.replaceColors(prop.getProperty("description")
-                            .replace("\\n", "\n")));
+
+            Message description = null;
+            switch (prop.getProperty("engine")) {
+                case "classic":
+                    Message classicMsg = new Message();
+                    classicMsg.text = ChatConverter.replaceColors(
+                            prop.getProperty("description")).replace("\\n", "\n");
+                    description =classicMsg;
+                    break;
+                case "json":
+                    description = ChatConverter.toJSONChat(
+                            ChatConverter.replaceColors(prop.getProperty("description")
+                                    .replace("\\n", "\n"))).get(0);
+            }
+
             response = new StatusResponse(
                     prop.getProperty("version"),
                     Integer.parseInt(prop.getProperty("protocol")),
                     Integer.parseInt(prop.getProperty("max")),
                     Integer.parseInt(prop.getProperty("online")),
-                    description.get(0)
+                    description
             );
         }
 
