@@ -1,9 +1,11 @@
 package me.vemacs.fakemcserver;
 
+import com.google.gson.Gson;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import me.vemacs.fakemcserver.data.StatusResponse;
 import me.vemacs.fakemcserver.streams.MojewInputStream;
 import me.vemacs.fakemcserver.streams.MojewOutputStream;
 
@@ -38,7 +40,10 @@ public class BasePacketHandler extends ChannelInboundHandlerAdapter {
             data.close();
             System.out.println("Proper length: " + data.writtenBytes() + ", " + length);
             // status response
-            String response = "{\"version\":{\"name\":\"1.7.9\",\"protocol\":5},\"players\":{\"max\":100,\"online\":5},\"description\":{\"text\":\"Hello world\"}}";
+            Gson gson = new Gson();
+            StatusResponse status = new StatusResponse("1.7.9", 5, 9000, 420, "Hello World");
+            String response = gson.toJson(status);
+            System.out.println(response);
             MojewOutputStream out = new MojewOutputStream(Unpooled.buffer());
             data = new MojewOutputStream(Unpooled.buffer());
             data.writeInt(0);
@@ -47,7 +52,7 @@ public class BasePacketHandler extends ChannelInboundHandlerAdapter {
             out.writeInt(data.writtenBytes());
             out.write(data.getData());
             out.close();
-            System.out.println(DatatypeConverter.printHexBinary(out.getData()));
+            // System.out.println(DatatypeConverter.printHexBinary(out.getData()));
             ctx.writeAndFlush(out.buffer());
         } else if (id == 1) {
             // ping request
@@ -62,7 +67,7 @@ public class BasePacketHandler extends ChannelInboundHandlerAdapter {
             out.writeInt(data.writtenBytes());
             out.write(data.getData());
             out.close();
-            System.out.println(DatatypeConverter.printHexBinary(out.getData()));
+            // System.out.println(DatatypeConverter.printHexBinary(out.getData()));
             ctx.writeAndFlush(out.buffer());
         }
     }
