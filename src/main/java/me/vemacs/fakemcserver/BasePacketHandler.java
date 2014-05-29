@@ -7,6 +7,8 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import me.vemacs.fakemcserver.streams.MojewInputStream;
 import me.vemacs.fakemcserver.streams.MojewOutputStream;
 
+import javax.xml.bind.DatatypeConverter;
+
 public class BasePacketHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
@@ -43,6 +45,7 @@ public class BasePacketHandler extends ChannelInboundHandlerAdapter {
         out.writeInt(data.writtenBytes());
         System.out.println(data.writtenBytes());
         out.write(data.buffer().array());
+        System.out.println(DatatypeConverter.printHexBinary(data.buffer().array()));
         out.close();
         ctx.writeAndFlush(msg);
     }
