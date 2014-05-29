@@ -1,6 +1,7 @@
 FakeMCServer
 ==
 Run `shadow` with Gradle to compile. Output is in `build/libs`.
+
 Run as `java -jar FakeMCserver-0.1-shadow.jar <port (optional)>`.
 
 Config
