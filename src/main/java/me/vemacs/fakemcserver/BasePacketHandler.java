@@ -43,6 +43,7 @@ public class BasePacketHandler extends ChannelInboundHandlerAdapter {
         out.writeInt(data.writtenBytes());
         System.out.println(data.writtenBytes());
         out.write(data.buffer().array());
+        ctx.writeAndFlush(msg);
     }
 
     @Override
