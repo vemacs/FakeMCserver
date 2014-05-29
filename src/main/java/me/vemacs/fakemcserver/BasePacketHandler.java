@@ -20,29 +20,19 @@ public class BasePacketHandler extends ChannelInboundHandlerAdapter {
         int length = in.readInt();
         int id = in.readInt();
         if (id == 0) {
-            int version = in.readInt();
-            String address = in.readUTF();
-            int port = in.readUnsignedShort();
-            int state = in.readInt();
-            System.out.println(length + ", " + id + ", " + version + ", " + address + ", " + port + ", " + state);
-            // status request
             try {
-                int len2 = in.readInt();
+                int version = in.readInt();
+                String address = in.readUTF();
+                int port = in.readUnsignedShort();
+                int state = in.readInt();
+                System.out.println(length + ", " + id + ", " + version + ", " + address + ", " + port + ", " + state);
+                length = in.readInt();
                 id = in.readInt();
-                System.out.println(len2 + ", " + id);
             } catch (Exception e) {
-                e.printStackTrace();
+                // status request
+                System.out.println(length + ", " + id);
+                in.close();
             }
-            in.close();
-            /* test packet response length
-            data.writeInt(id);
-            data.writeInt(version);
-            data.writeUTF(address);
-            data.writeShort(port);
-            data.writeInt(state);
-            data.close();
-            System.out.println("Proper length: " + data.writtenBytes() + ", " + length);
-            */
             // status response
             Gson gson = new Gson();
             StatusResponse status = new StatusResponse("1.7.9", 5, 9000, 420, "Hello World");
