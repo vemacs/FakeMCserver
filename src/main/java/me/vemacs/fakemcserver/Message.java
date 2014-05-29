@@ -1,5 +1,7 @@
 package me.vemacs.fakemcserver;
 
+import java.util.List;
+
 public class Message {
     public String text;
 
@@ -8,6 +10,7 @@ public class Message {
     public boolean underlined;
     public boolean strikethrough;
     public boolean obfuscated;
+    public List<Message> extra;
 
     public Color color;
 

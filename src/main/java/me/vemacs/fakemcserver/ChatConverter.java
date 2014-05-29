@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -95,7 +96,12 @@ public class ChatConverter {
         msg.text = buf.toString();
         parts.add(msg);
         parts.remove(0);
-        return parts;
+        System.out.println(parts.size());
+        Message base = parts.remove(0);
+        base.extra = new ArrayList<>();
+        for (Message m : parts)
+            base.extra.add(m);
+        return Collections.singletonList(base);
     }
 }
 
