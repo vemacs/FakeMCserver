@@ -3,6 +3,7 @@ package me.vemacs.fakemcserver;
 import me.vemacs.fakemcserver.data.StatusResponse;
 
 import java.io.*;
+import java.util.List;
 import java.util.Properties;
 
 public class Main {
@@ -25,14 +26,16 @@ public class Main {
 
         try (InputStream input = new FileInputStream(config)) {
             prop.load(input);
+            List<Message> description = ChatConverter.toJSONChat(
+                    ChatConverter.replaceColors(prop.getProperty("description")
+                            .replace("\\n", "\n")));
+            description.remove(0);
             response = new StatusResponse(
                     prop.getProperty("version"),
                     Integer.parseInt(prop.getProperty("protocol")),
                     Integer.parseInt(prop.getProperty("max")),
                     Integer.parseInt(prop.getProperty("online")),
-                    ChatConverter.toJSONChat(
-                            ChatConverter.replaceColors(prop.getProperty("description")
-                                    .replace("\\n", "\n")))
+                    description
             );
         }
 
