@@ -8,6 +8,7 @@ import me.vemacs.fakemcserver.streams.MojewInputStream;
 import me.vemacs.fakemcserver.streams.MojewOutputStream;
 
 import javax.xml.bind.DatatypeConverter;
+import java.util.Arrays;
 
 public class BasePacketHandler extends ChannelInboundHandlerAdapter {
     @Override
@@ -44,8 +45,9 @@ public class BasePacketHandler extends ChannelInboundHandlerAdapter {
         data.close();
         out.writeInt(data.writtenBytes());
         System.out.println(data.writtenBytes());
-        out.write(data.buffer().array());
-        System.out.println(DatatypeConverter.printHexBinary(data.buffer().array()));
+        byte[] bytes = Arrays.copyOfRange(data.buffer().array(), 0, data.writtenBytes());
+        out.write(bytes);
+        System.out.println(DatatypeConverter.printHexBinary(bytes));
         out.close();
         ctx.writeAndFlush(msg);
     }
