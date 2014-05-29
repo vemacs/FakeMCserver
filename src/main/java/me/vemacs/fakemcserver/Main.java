@@ -29,13 +29,12 @@ public class Main {
             List<Message> description = ChatConverter.toJSONChat(
                     ChatConverter.replaceColors(prop.getProperty("description")
                             .replace("\\n", "\n")));
-            description.remove(0);
             response = new StatusResponse(
                     prop.getProperty("version"),
                     Integer.parseInt(prop.getProperty("protocol")),
                     Integer.parseInt(prop.getProperty("max")),
                     Integer.parseInt(prop.getProperty("online")),
-                    description
+                    description.get(1)
             );
         }
 

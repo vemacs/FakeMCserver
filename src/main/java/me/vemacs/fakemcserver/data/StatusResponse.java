@@ -8,9 +8,9 @@ import java.util.List;
 public class StatusResponse {
     Version version;
     Players players;
-    List<Message> description;
+    Message description;
 
-    public StatusResponse(String name, int protocol, int max, int online, List<Message> description) {
+    public StatusResponse(String name, int protocol, int max, int online, Message description) {
         this.version = new Version(name, protocol);
         this.players = new Players(max, online);
         this.description = description;
