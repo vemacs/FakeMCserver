@@ -37,7 +37,7 @@ public class BasePacketHandler extends ChannelInboundHandlerAdapter {
         data.close();
         System.out.println("Proper length: " + data.writtenBytes() + ", " + length);
         // status response
-        String response = "{\"version\":{\"name\":\"1.7.9\",\"protocol\":4},\"players\":{\"max\":100,\"online\":5,},\"description\":{\"text\":\"Hello world\"},}";
+        String response = "{\"version\":{\"name\":\"1.7.9\",\"protocol\":5},\"players\":{\"max\":100,\"online\":5},\"description\":{\"text\":\"Hello world\"}}";
         MojewOutputStream out = new MojewOutputStream(Unpooled.buffer());
         data = new MojewOutputStream(Unpooled.buffer());
         data.writeInt(0);
