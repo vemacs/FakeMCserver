@@ -20,6 +20,7 @@ public class BasePacketHandler extends ChannelInboundHandlerAdapter {
         int length = in.readInt();
         int id = in.readInt();
         if (id == 0) {
+            // status request
             try {
                 int version = in.readInt();
                 String address = in.readUTF();
@@ -28,11 +29,10 @@ public class BasePacketHandler extends ChannelInboundHandlerAdapter {
                 System.out.println(length + ", " + id + ", " + version + ", " + address + ", " + port + ", " + state);
                 length = in.readInt();
                 id = in.readInt();
-            } catch (Exception e) {
-                // status request
-                System.out.println(length + ", " + id);
-                in.close();
+            } catch (Exception ignored) {
             }
+            in.close();
+            System.out.println(length + ", " + id);
             // status response
             Gson gson = new Gson();
             StatusResponse status = new StatusResponse("1.7.9", 5, 9000, 420, "Hello World");
