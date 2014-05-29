@@ -20,20 +20,29 @@ public class BasePacketHandler extends ChannelInboundHandlerAdapter {
         int state = in.readInt();
         System.out.println(length + ", " + id + ", " + version + ", " + address + ", " + port + ", " + state);
         // status request
-        length = in.readInt();
+        int len2 = in.readInt();
         id = in.readInt();
-        System.out.println(length + ", " + id);
+        System.out.println(len2 + ", " + id);
         in.close();
+        // test packet response length
+        MojewOutputStream data = new MojewOutputStream(Unpooled.buffer());
+        data.writeInt(id);
+        data.writeInt(version);
+        data.writeUTF(address);
+        data.writeShort(port);
+        data.writeInt(state);
+        data.close();
+        System.out.println("Proper length: " + data.writtenBytes() + ", " + length);
         // status response
         String response = "{\"version\":{\"name\":\"1.7.2\",\"protocol\":4},\"players\":{\"max\":100,\"online\":5,\"sample\":[{\"name\":\"Thinkofdeath\",\"id\":\"4566e69fc90748ee8d71d7ba5aa00d20\"}]},\"description\":{\"text\":\"Hello world\"},\"favicon\":\"data:image/png;base64,<data>\"}";
         MojewOutputStream out = new MojewOutputStream((ByteBuf) msg);
-        MojewOutputStream data = new MojewOutputStream(Unpooled.buffer());
+        data = new MojewOutputStream(Unpooled.buffer());
         data.writeInt(0);
         data.writeUTF(response);
         data.close();
         out.writeInt(data.writtenBytes());
+        System.out.println(data.writtenBytes());
         out.write(data.buffer().array());
-        ctx.writeAndFlush(msg);
     }
 
     @Override
