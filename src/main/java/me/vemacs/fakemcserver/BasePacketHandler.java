@@ -10,14 +10,13 @@ import java.io.IOException;
 public class BasePacketHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ByteBufInputStream buffer = new ByteBufInputStream((ByteBuf) msg);
-        int length = readVarInt(buffer);
-        int id = readVarInt(buffer);
-        int version = readVarInt(buffer);
-        int len = readVarInt(buffer);
-        String address = readString(buffer, len);
+        MojewInputStream buffer = new MojewInputStream((ByteBuf) msg);
+        int length = buffer.readInt();
+        int id = buffer.readInt();
+        int version = buffer.readInt();
+        String address = buffer.readUTF();
         int port = buffer.readUnsignedShort();
-        int state = readVarInt(buffer);
+        int state = buffer.readInt();
         System.out.println(length + ", " + id + ", " + version + ", " + address + ", " + port + ", " + state);
         ((ByteBuf) msg).release();
     }
@@ -26,23 +25,5 @@ public class BasePacketHandler extends ChannelInboundHandlerAdapter {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         cause.printStackTrace();
         ctx.close();
-    }
-
-    public int readVarInt(ByteBufInputStream in) throws IOException {
-        int i = 0;
-        int j = 0;
-        while (true) {
-            int k = in.readByte();
-            i |= (k & 0x7F) << j++ * 7;
-            if (j > 5) throw new RuntimeException("VarInt too big");
-            if ((k & 0x80) != 128) break;
-        }
-        return i;
-    }
-
-    public String readString(ByteBufInputStream in, int length) throws Exception {
-        byte[] input = new byte[length];
-        in.readFully(input);
-        return new String(input);
     }
 }
