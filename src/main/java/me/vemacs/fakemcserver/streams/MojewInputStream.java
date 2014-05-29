@@ -1,9 +1,10 @@
-package me.vemacs.fakemcserver;
+package me.vemacs.fakemcserver.streams;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class MojewInputStream extends ByteBufInputStream {
     public MojewInputStream(ByteBuf buffer) {
@@ -14,7 +15,7 @@ public class MojewInputStream extends ByteBufInputStream {
     public String readUTF() throws IOException {
         byte[] input = new byte[readInt()];
         readFully(input);
-        return new String(input);
+        return new String(input, StandardCharsets.UTF_8);
     }
 
     @Override

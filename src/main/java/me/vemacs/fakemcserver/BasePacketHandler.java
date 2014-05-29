@@ -1,11 +1,9 @@
 package me.vemacs.fakemcserver;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufInputStream;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-
-import java.io.IOException;
+import me.vemacs.fakemcserver.streams.MojewInputStream;
 
 public class BasePacketHandler extends ChannelInboundHandlerAdapter {
     @Override
