@@ -56,8 +56,7 @@ public class BasePacketHandler extends ChannelInboundHandlerAdapter {
             // ping response
             MojewOutputStream out = new MojewOutputStream(Unpooled.buffer());
             MojewOutputStream data = new MojewOutputStream(Unpooled.buffer());
-            data.writeInt(length);
-            data.writeInt(id);
+            data.writeInt(1);
             data.writeLong(time);
             data.close();
             out.writeInt(data.writtenBytes());
