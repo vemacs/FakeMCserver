@@ -30,16 +30,16 @@ public class Main {
 
             Message description = null;
             switch (prop.getProperty("engine")) {
-                case "classic":
-                    Message classicMsg = new Message();
-                    classicMsg.text = ChatConverter.replaceColors(
-                            prop.getProperty("description")).replace("\\n", "\n");
-                    description =classicMsg;
-                    break;
                 case "json":
                     description = ChatConverter.toJSONChat(
                             ChatConverter.replaceColors(prop.getProperty("description")
                                     .replace("\\n", "\n"))).get(0);
+                    break;
+                default:
+                    Message classicMsg = new Message();
+                    classicMsg.text = ChatConverter.replaceColors(
+                            prop.getProperty("description")).replace("\\n", "\n");
+                    description =classicMsg;
             }
 
             response = new StatusResponse(
