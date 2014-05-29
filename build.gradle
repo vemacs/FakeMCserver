@@ -1,0 +1,30 @@
+apply plugin: 'groovy'
+apply plugin: 'shadow'
+
+buildscript {
+    repositories {
+        maven {
+            name 'Shadow'
+            url 'http://dl.bintray.com/content/johnrengelman/gradle-plugins'
+        }
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.gradle.plugins:shadow:0.7.4'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'io.netty:netty-all:4.0.19.Final'
+}
+
+version = '0.1'
+jar {
+    manifest {
+        attributes 'Main-Class': 'me.vemacs.fakemcserver.Main'
+    }
+}
