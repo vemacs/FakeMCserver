@@ -13,6 +13,8 @@ import javax.xml.bind.DatatypeConverter;
 import java.util.Arrays;
 
 public class BasePacketHandler extends ChannelInboundHandlerAdapter {
+    private final Gson gson = new Gson();
+
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         MojewInputStream in = new MojewInputStream((ByteBuf) msg);
@@ -34,9 +36,7 @@ public class BasePacketHandler extends ChannelInboundHandlerAdapter {
             in.close();
             System.out.println(length + ", " + id);
             // status response
-            Gson gson = new Gson();
-            StatusResponse status = new StatusResponse("1.7.9", 5, 9000, 420, "Hello World");
-            String response = gson.toJson(status);
+            String response = gson.toJson(Main.response);
             System.out.println(response);
             MojewOutputStream out = new MojewOutputStream(Unpooled.buffer());
             MojewOutputStream data = new MojewOutputStream(Unpooled.buffer());
