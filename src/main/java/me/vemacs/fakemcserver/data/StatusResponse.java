@@ -1,11 +1,16 @@
 package me.vemacs.fakemcserver.data;
 
+import me.vemacs.fakemcserver.ChatConverter;
+import me.vemacs.fakemcserver.Message;
+
+import java.util.List;
+
 public class StatusResponse {
     Version version;
     Players players;
-    String description;
+    List<Message> description;
 
-    public StatusResponse(String name, int protocol, int max, int online, String description) {
+    public StatusResponse(String name, int protocol, int max, int online, List<Message> description) {
         this.version = new Version(name, protocol);
         this.players = new Players(max, online);
         this.description = description;

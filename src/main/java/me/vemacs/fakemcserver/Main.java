@@ -31,7 +31,8 @@ public class Main {
                     Integer.parseInt(prop.getProperty("max")),
                     Integer.parseInt(prop.getProperty("online")),
                     ChatConverter.toJSONChat(
-                            ChatConverter.replaceColors(prop.getProperty("description")))
+                            ChatConverter.replaceColors(prop.getProperty("description")
+                                    .replace("\\n", "\n")))
             );
         }
 

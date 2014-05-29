@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,9 +30,9 @@ public class ChatConverter {
         return new String(chrarray);
     }
 
-    public static String toJSONChat(String txt) {
+    public static List<Message> toJSONChat(String txt) {
         Message msg = new Message();
-        ArrayList<Message> parts = new ArrayList<Message>();
+        ArrayList<Message> parts = new ArrayList<>();
         StringBuilder buf = new StringBuilder();
         Matcher matcher = url.matcher(txt);
         for (int i = 0; i < txt.length(); i++) {
@@ -93,33 +94,7 @@ public class ChatConverter {
         }
         msg.text = buf.toString();
         parts.add(msg);
-        return gson.toJson(parts);
-    }
-}
-
-class Message {
-    public String text;
-
-    public boolean bold;
-    public boolean italic;
-    public boolean underlined;
-    public boolean strikethrough;
-    public boolean obfuscated;
-
-    public Color color;
-
-    public ClickEvent clickEvent;
-
-    public Message() {
-
-    }
-
-    public Message(Message old) {
-        this.bold = old.bold;
-        this.italic = old.italic;
-        this.underlined = old.underlined;
-        this.strikethrough = old.strikethrough;
-        this.color = old.color;
+        return parts;
     }
 }
 
