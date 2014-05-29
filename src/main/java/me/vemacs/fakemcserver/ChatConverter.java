@@ -95,10 +95,9 @@ public class ChatConverter {
         }
         msg.text = buf.toString();
         parts.add(msg);
-        parts.remove(0); // Blank text field at the beginning for some reason
-        // System.out.println(parts.size());
         Message base = parts.remove(0);
-        base.extra = new ArrayList<>();
+        if (parts.size() != 0)
+            base.extra = new ArrayList<>();
         for (Message m : parts)
             base.extra.add(m);
         return Collections.singletonList(base);
