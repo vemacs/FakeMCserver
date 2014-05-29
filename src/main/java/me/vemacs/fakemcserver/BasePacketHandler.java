@@ -48,6 +48,23 @@ public class BasePacketHandler extends ChannelInboundHandlerAdapter {
         out.close();
         System.out.println(DatatypeConverter.printHexBinary(out.getData()));
         ctx.writeAndFlush(out.buffer());
+        // ping request
+        length = in.readInt();
+        id = in.readInt();
+        long time = in.readLong();
+        System.out.println(length + ", " + id + ", " + time);
+        // ping response
+        out = new MojewOutputStream(Unpooled.buffer());
+        data = new MojewOutputStream(Unpooled.buffer());
+        data.writeInt(length);
+        data.writeInt(id);
+        data.writeLong(time);
+        data.close();
+        out.writeInt(data.writtenBytes());
+        out.write(data.getData());
+        out.close();
+        System.out.println(DatatypeConverter.printHexBinary(out.getData()));
+        ctx.writeAndFlush(out.buffer());
     }
 
     @Override
