@@ -95,11 +95,14 @@ public class ChatConverter {
         }
         msg.text = buf.toString();
         parts.add(msg);
+        if (parts.get(0).text.equals(""))
+            parts.remove(0); // occasionally empty text?
         Message base = parts.remove(0);
-        if (parts.size() != 0)
+        if (parts.size() != 0) {
             base.extra = new ArrayList<>();
-        for (Message m : parts)
-            base.extra.add(m);
+            for (Message m : parts)
+                base.extra.add(m);
+        }
         return Collections.singletonList(base);
     }
 }

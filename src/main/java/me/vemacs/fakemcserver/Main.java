@@ -19,7 +19,7 @@ public class Main {
                 prop.setProperty("max", Integer.toString(42069));
                 prop.setProperty("online", Integer.toString(9001));
                 prop.setProperty("description", "&cBl&baze it\\n&fmaggots");
-                prop.setProperty("engine", "json");
+                prop.setProperty("engine", "classic");
                 prop.store(output, null);
             }
         }
