@@ -18,7 +18,7 @@ public class Main {
                 prop.setProperty("protocol", Integer.toString(5));
                 prop.setProperty("max", Integer.toString(42069));
                 prop.setProperty("online", Integer.toString(9001));
-                prop.setProperty("description", "Blaze it");
+                prop.setProperty("description", "&cBl&baze it\\n&fmaggots");
                 prop.setProperty("engine", "json");
                 prop.store(output, null);
             }
@@ -27,7 +27,7 @@ public class Main {
         try (InputStream input = new FileInputStream(config)) {
             prop.load(input);
 
-            Message description = null;
+            Message description;
             switch (prop.getProperty("engine")) {
                 case "json":
                     description = ChatConverter.toJSONChat(
