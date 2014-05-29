@@ -94,6 +94,7 @@ public class ChatConverter {
         }
         msg.text = buf.toString();
         parts.add(msg);
+        parts.remove(0);
         return parts;
     }
 }

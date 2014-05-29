@@ -34,7 +34,7 @@ public class Main {
                     Integer.parseInt(prop.getProperty("protocol")),
                     Integer.parseInt(prop.getProperty("max")),
                     Integer.parseInt(prop.getProperty("online")),
-                    description.get(1)
+                    description.get(0)
             );
         }
 
