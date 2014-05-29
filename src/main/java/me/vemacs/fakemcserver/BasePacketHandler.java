@@ -26,12 +26,15 @@ public class BasePacketHandler extends ChannelInboundHandlerAdapter {
             int state = in.readInt();
             System.out.println(length + ", " + id + ", " + version + ", " + address + ", " + port + ", " + state);
             // status request
-            int len2 = in.readInt();
-            id = in.readInt();
-            System.out.println(len2 + ", " + id);
+            try {
+                int len2 = in.readInt();
+                id = in.readInt();
+                System.out.println(len2 + ", " + id);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             in.close();
-            // test packet response length
-            MojewOutputStream data = new MojewOutputStream(Unpooled.buffer());
+            /* test packet response length
             data.writeInt(id);
             data.writeInt(version);
             data.writeUTF(address);
@@ -39,13 +42,14 @@ public class BasePacketHandler extends ChannelInboundHandlerAdapter {
             data.writeInt(state);
             data.close();
             System.out.println("Proper length: " + data.writtenBytes() + ", " + length);
+            */
             // status response
             Gson gson = new Gson();
             StatusResponse status = new StatusResponse("1.7.9", 5, 9000, 420, "Hello World");
             String response = gson.toJson(status);
             System.out.println(response);
             MojewOutputStream out = new MojewOutputStream(Unpooled.buffer());
-            data = new MojewOutputStream(Unpooled.buffer());
+            MojewOutputStream data = new MojewOutputStream(Unpooled.buffer());
             data.writeInt(0);
             data.writeUTF(response);
             data.close();

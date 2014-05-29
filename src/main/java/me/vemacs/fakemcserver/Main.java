@@ -1,6 +1,10 @@
 package me.vemacs.fakemcserver;
 
+import java.util.Properties;
+
 public class Main {
+    Properties prop = new Properties();
+
     public static void main(String[] args) throws Exception {
         int port;
         if (args.length > 0) {
