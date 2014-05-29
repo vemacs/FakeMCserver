@@ -99,6 +99,7 @@ public class ChatConverter {
         Message base = parts.remove(0);
         if (parts.size() != 0)
             base.extra = Arrays.asList(parts);
+        return Collections.singletonList(base);
     }
 }
 
