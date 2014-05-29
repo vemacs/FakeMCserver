@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Arrays
 
 public class ChatConverter {
     private static final Gson gson = new Gson();
@@ -97,10 +98,7 @@ public class ChatConverter {
         parts.add(msg);
         Message base = parts.remove(0);
         if (parts.size() != 0)
-            base.extra = new ArrayList<>();
-        for (Message m : parts)
-            base.extra.add(m);
-        return Collections.singletonList(base);
+            base.extra = Arrays.asList(parts);
     }
 }
 
