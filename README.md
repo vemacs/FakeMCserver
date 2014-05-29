@@ -54,7 +54,8 @@ Configuration value is `description=&cBl&baze it\n&fmaggots`.
         ],
         "color": "red"
     }
-}```
+}
+```
 * Using `engine=classic`:
 ```json
 {
@@ -74,4 +75,5 @@ Configuration value is `description=&cBl&baze it\n&fmaggots`.
         "strikethrough": false,
         "obfuscated": false
     }
-}```
+}
+```
