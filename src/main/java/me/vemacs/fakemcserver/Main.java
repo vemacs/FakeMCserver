@@ -2,8 +2,13 @@ package me.vemacs.fakemcserver;
 
 import me.vemacs.fakemcserver.data.StatusResponse;
 
+import javax.xml.bind.DatatypeConverter;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.Properties;
+
+import static javax.imageio.ImageIO.read;
+import static javax.imageio.ImageIO.write;
 
 public class Main {
     static Properties prop = new Properties();
@@ -22,6 +27,15 @@ public class Main {
                 prop.setProperty("engine", "classic");
                 prop.store(output, null);
             }
+        }
+
+        String favicon = null;
+        File iconFile = new File("server-icon.png");
+        if (iconFile.exists()) {
+            BufferedImage image = read(iconFile);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            write(image, "png", baos);
+            favicon = "data:image/png;base64," + DatatypeConverter.printBase64Binary(baos.toByteArray());
         }
 
         try (InputStream input = new FileInputStream(config)) {
@@ -46,7 +60,8 @@ public class Main {
                     Integer.parseInt(prop.getProperty("protocol")),
                     Integer.parseInt(prop.getProperty("max")),
                     Integer.parseInt(prop.getProperty("online")),
-                    description
+                    description,
+                    favicon
             );
         }
 

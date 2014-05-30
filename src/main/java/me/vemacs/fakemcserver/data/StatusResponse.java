@@ -6,11 +6,13 @@ public class StatusResponse {
     Version version;
     Players players;
     Message description;
+    String favicon;
 
-    public StatusResponse(String name, int protocol, int max, int online, Message description) {
+    public StatusResponse(String name, int protocol, int max, int online, Message description, String favicon) {
         this.version = new Version(name, protocol);
         this.players = new Players(max, online);
         this.description = description;
+        this.favicon = favicon;
     }
 
     public class Version {
