@@ -147,7 +147,7 @@ enum Color {
     }
 
 
-    private static HashMap<String, Color> codeMap = new HashMap<String, Color>();
+    private static HashMap<String, Color> codeMap = new HashMap<>();
 
     public static Color fromCode(String code) {
         return codeMap.get(code);
