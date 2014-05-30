@@ -46,7 +46,7 @@ public class Main {
                 case "json":
                     description = ChatConverter.toJSONChat(
                             ChatConverter.replaceColors(prop.getProperty("description")
-                                    .replace("\\n", "\n"))).get(0);
+                                    .replace("\\n", "\n")));
                     break;
                 default:
                     Message classicMsg = new Message();

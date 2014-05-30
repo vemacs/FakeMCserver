@@ -3,10 +3,7 @@ package me.vemacs.fakemcserver;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,7 +28,7 @@ public class ChatConverter {
         return new String(chrarray);
     }
 
-    public static List<Message> toJSONChat(String txt) {
+    public static Message toJSONChat(String txt) {
         Message msg = new Message();
         ArrayList<Message> parts = new ArrayList<>();
         StringBuilder buf = new StringBuilder();
@@ -98,12 +95,9 @@ public class ChatConverter {
         if (parts.get(0).text.equals(""))
             parts.remove(0); // occasionally empty text?
         Message base = parts.remove(0);
-        if (parts.size() != 0) {
-            base.extra = new ArrayList<>();
-            for (Message m : parts)
-                base.extra.add(m);
-        }
-        return Collections.singletonList(base);
+        if (parts.size() != 0)
+            base.extra = new ArrayList<>(parts);
+        return base;
     }
 }
 
