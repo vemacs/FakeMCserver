@@ -34,7 +34,10 @@ public class BasePacketHandler extends ChannelInboundHandlerAdapter {
             // status response
             String response = gson.toJson(Main.response).replace(
                     ChatConverter.ESCAPE + "", "\\u00A7"); // Mojew's parser needs this escaped (classic)
-            System.out.println("Sending response with JSON: " + response);
+            if (Main.response.favicon == null)
+                System.out.println("Sending response: " + response);
+            else
+                System.out.println("Sent response with image data.");
             MojewOutputStream out = new MojewOutputStream(Unpooled.buffer());
             MojewOutputStream data = new MojewOutputStream(Unpooled.buffer());
             data.writeInt(0);
